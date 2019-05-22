@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 
 import { getMovies } from '../../services/fakeMovieService';
+
+// Custom components
+import Pagination from '../common/pagination';
 import Like from '../common/like';
 
 class Movies extends Component {
@@ -64,6 +67,7 @@ class Movies extends Component {
             ))}
           </tbody>
         </table>
+        <Pagination itemsNumber={length} itemsPerPage={3} />
       </React.Fragment>
     );
   }
