@@ -6,6 +6,7 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { faHeart as heartSolid } from '@fortawesome/free-solid-svg-icons';
 import { faHeart as heartRegular } from '@fortawesome/free-regular-svg-icons';
 
+// Custom components
 import Movies from '../movies';
 
 library.add(heartSolid, heartRegular);
