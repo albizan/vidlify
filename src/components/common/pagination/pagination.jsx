@@ -1,46 +1,42 @@
 import React from 'react';
+import _ from 'lodash';
 
-const Pagination = ({ itemsNumber, itemsPerPage }) => {
+const Pagination = ({ itemsCount, pageSize, currentPage, onPageChange }) => {
+  // Calculate the number of pages to display in pagination
+  const pagesCount = Math.ceil(itemsCount / pageSize);
+
+  // If all items can be displayed in just one page, do not show pagination
+  if (pagesCount === 1) return null;
+
+  // Use Lodash to generate an array called pages with the given range
+  const pages = _.range(1, pagesCount + 1);
+
   return (
     <React.Fragment>
       <nav aria-label="Page navigation example">
-        <ul class="pagination">
-          {/* Previous Arrow */}
-          <li class="page-item">
-            <button class="page-link" aria-label="Previous">
-              <span aria-hidden="true">&laquo;</span>
-              <span class="sr-only">Previous</span>
-            </button>
-          </li>
-          {makeArray(Math.ceil(itemsNumber / itemsPerPage)).map(page => {
+        <ul className="pagination">
+          {/* Map through pages array to display each pagination item */}
+          {pages.map(page => {
+            // Append active class to pagination item when needed
+            let classes = 'page-item';
+            if (page === currentPage) {
+              classes += ' active';
+            }
             return (
-              <li class="page-item">
-                <button class="page-link">{page}</button>
+              <li key={page} className={classes}>
+                <button
+                  onClick={() => onPageChange(page)}
+                  className="page-link"
+                >
+                  {page}
+                </button>
               </li>
             );
           })}
-
-          {/* Next Arrow */}
-          <li class="page-item">
-            <button class="page-link" aria-label="Next">
-              <span aria-hidden="true">&raquo;</span>
-              <span class="sr-only">Next</span>
-            </button>
-          </li>
         </ul>
       </nav>
     </React.Fragment>
   );
 };
-
-function makeArray(length) {
-  var array = [];
-
-  for (let i = 1; i <= length; i++) {
-    array.push(i);
-  }
-
-  return array;
-}
 
 export default Pagination;
