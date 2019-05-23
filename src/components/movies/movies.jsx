@@ -6,9 +6,14 @@ import { getMovies } from '../../services/fakeMovieService';
 import Pagination from '../common/pagination';
 import Like from '../common/like';
 
+// Import utils
+import { paginate } from '../../utils/paginate';
+
 class Movies extends Component {
   state = {
     movies: getMovies(),
+    pageSize: 5,
+    currentPage: 1,
   };
 
   handleDelete = movie => {
@@ -23,10 +28,18 @@ class Movies extends Component {
     this.setState({ movies: newMovies });
   };
 
+  handlePageChange = page => {
+    this.setState({ currentPage: page });
+  };
+
   render() {
     const { length } = this.state.movies;
+    const { movies, pageSize, currentPage } = this.state;
 
-    // If length === 0 => There are no mobies to display
+    // Use paginate utility to create an array of items to display
+    const moviestoDisplay = paginate(movies, currentPage, pageSize);
+
+    // If length === 0 => There are no movies to display
     if (length === 0) return <p>There are no mobies to display</p>;
     return (
       <React.Fragment>
@@ -43,7 +56,7 @@ class Movies extends Component {
             </tr>
           </thead>
           <tbody>
-            {this.state.movies.map(movie => (
+            {moviestoDisplay.map(movie => (
               <tr key={movie._id}>
                 <td>{movie.title}</td>
                 <td>{movie.genre.name}</td>
@@ -67,7 +80,12 @@ class Movies extends Component {
             ))}
           </tbody>
         </table>
-        <Pagination itemsNumber={length} itemsPerPage={3} />
+        <Pagination
+          itemsCount={length}
+          pageSize={pageSize}
+          currentPage={currentPage}
+          onPageChange={this.handlePageChange}
+        />
       </React.Fragment>
     );
   }
