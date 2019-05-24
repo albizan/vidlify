@@ -13,7 +13,7 @@ library.add(heartSolid, heartRegular);
 
 const App = () => {
   return (
-    <main className="container">
+    <main className="container my-4">
       <Movies />
     </main>
   );
