@@ -27,10 +27,7 @@ class Movies extends Component {
   };
 
   // Handle 'like' toggle of a movie
-  // extract movies from state
-  // search for movie index
-  // apply 'like' toggle
-  // set new state
+  // extract movies from state, search for movie index, apply 'like' toggle, set new state
   toggleLike = movie => {
     const newMovies = [...this.state.movies];
     const index = newMovies.indexOf(movie);
