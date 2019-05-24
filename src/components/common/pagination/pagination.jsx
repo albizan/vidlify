@@ -1,6 +1,9 @@
 import React from 'react';
 import _ from 'lodash';
 
+// Type Checking
+import PropTypes from 'prop-types';
+
 const Pagination = ({ itemsCount, pageSize, currentPage, onPageChange }) => {
   // Calculate the number of pages to display in pagination
   const pagesCount = Math.ceil(itemsCount / pageSize);
@@ -37,6 +40,13 @@ const Pagination = ({ itemsCount, pageSize, currentPage, onPageChange }) => {
       </nav>
     </React.Fragment>
   );
+};
+
+Pagination.propTypes = {
+  itemsCount: PropTypes.number.isRequired,
+  pageSize: PropTypes.number.isRequired,
+  currentPage: PropTypes.number.isRequired,
+  onPageChange: PropTypes.func.isRequired,
 };
 
 export default Pagination;
