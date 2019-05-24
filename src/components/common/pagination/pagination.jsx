@@ -16,7 +16,7 @@ const Pagination = ({ itemsCount, pageSize, currentPage, onPageChange }) => {
 
   return (
     <React.Fragment>
-      <nav aria-label="Page navigation example">
+      <nav aria-label="Page navigation">
         <ul className="pagination">
           {/* Map through pages array to display each pagination item */}
           {pages.map(page => {
