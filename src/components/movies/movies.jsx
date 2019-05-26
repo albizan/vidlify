@@ -5,7 +5,7 @@ import { getGenres } from '../../services/fakeGenreService';
 
 // Custom components
 import Pagination from '../common/pagination';
-import Like from '../common/like';
+import MoviesTable from '../moviesTable';
 import ListGroup from '../common/list-group';
 
 // Import utils
@@ -15,20 +15,20 @@ class Movies extends Component {
   state = {
     movies: [],
     genres: [],
-    pageSize: 5,
+    pageSize: 4,
     currentPage: 1,
     selectedGenre: null,
   };
 
   // Handle deletion of a movie, filter out that movie and set new state
-  handleDelete = movie => {
+  handleDeleteMovie = movie => {
     const movies = this.state.movies.filter(m => m._id !== movie._id);
     this.setState({ movies });
   };
 
   // Handle 'like' toggle of a movie
   // extract movies from state, search for movie index, apply 'like' toggle, set new state
-  toggleLike = movie => {
+  handleLikeToggle = movie => {
     const newMovies = [...this.state.movies];
     const index = newMovies.indexOf(movie);
     newMovies[index].liked = !movie.liked;
@@ -42,26 +42,30 @@ class Movies extends Component {
 
   // Change state to match current selected genre in list-group component
   handleGenreSelect = genre => {
-    this.setState({ selectedGenre: genre });
+    // When a genre is selected, reset current page to zero
+    this.setState({ selectedGenre: genre, currentPage: 1 });
   };
 
   componentDidMount() {
-    this.setState({ movies: getMovies(), genres: getGenres() });
+    // Add All Genre at the beginning of the genres array
+    const genresArray = [{ name: 'All Genres', _id: null }, ...getGenres()];
+    this.setState({
+      movies: getMovies(),
+      genres: genresArray,
+      selectedGenre: genresArray[0],
+    });
   }
 
   render() {
     const { movies, genres, selectedGenre, pageSize, currentPage } = this.state;
-    const filtered = selectedGenre
-      ? movies.filter(m => m.genre._id === selectedGenre._id)
-      : movies;
+    // Check if All Genres is selected. If not, proceed with filtering
+    const filtered =
+      selectedGenre && selectedGenre._id
+        ? movies.filter(m => m.genre._id === selectedGenre._id)
+        : movies;
 
     // Use paginate utility to create an array of items to display
     const moviestoDisplay = paginate(filtered, currentPage, pageSize);
-
-    console.log(filtered);
-
-    // If length === 0 => There are no movies to display
-    if (filtered.length === 0) return <p>There are no movies to display</p>;
 
     return (
       <div className="row">
@@ -73,43 +77,12 @@ class Movies extends Component {
           />
         </div>
         <div className="col">
-          <p>Showing {filtered.length} movies in the database.</p>
-          <table className="table">
-            <thead>
-              <tr>
-                <th>Title</th>
-                <th>Genre</th>
-                <th>Stock</th>
-                <th>Rate</th>
-                <th />
-                <th />
-              </tr>
-            </thead>
-            <tbody>
-              {moviestoDisplay.map(movie => (
-                <tr key={movie._id}>
-                  <td>{movie.title}</td>
-                  <td>{movie.genre.name}</td>
-                  <td>{movie.numberInStock}</td>
-                  <td>{movie.dailyRentalRate}</td>
-                  <td>
-                    <Like
-                      onClick={() => this.toggleLike(movie)}
-                      liked={movie.liked}
-                    />
-                  </td>
-                  <td>
-                    <button
-                      onClick={() => this.handleDelete(movie)}
-                      className="btn btn-danger btn-sm"
-                    >
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <MoviesTable
+            onLikeToggle={this.handleLikeToggle}
+            onMovieDelete={this.handleDeleteMovie}
+            moviesCount={filtered.length}
+            movies={moviestoDisplay}
+          />
           <Pagination
             itemsCount={filtered.length}
             pageSize={pageSize}
