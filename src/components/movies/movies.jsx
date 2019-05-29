@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import _ from 'lodash';
+
 import { getMovies } from '../../services/fakeMovieService';
 import { getGenres } from '../../services/fakeGenreService';
 
@@ -18,6 +20,7 @@ class Movies extends Component {
     pageSize: 4,
     currentPage: 1,
     selectedGenre: null,
+    sortColumn: { target: 'title', order: 'asc' },
   };
 
   // Handle deletion of a movie, filter out that movie and set new state
@@ -46,6 +49,10 @@ class Movies extends Component {
     this.setState({ selectedGenre: genre, currentPage: 1 });
   };
 
+  handleSort = sortColumn => {
+    this.setState({ sortColumn });
+  };
+
   componentDidMount() {
     // Add All Genre at the beginning of the genres array
     const genresArray = [{ name: 'All Genres', _id: null }, ...getGenres()];
@@ -57,15 +64,26 @@ class Movies extends Component {
   }
 
   render() {
-    const { movies, genres, selectedGenre, pageSize, currentPage } = this.state;
+    const {
+      movies,
+      genres,
+      selectedGenre,
+      pageSize,
+      currentPage,
+      sortColumn,
+    } = this.state;
+
     // Check if All Genres is selected. If not, proceed with filtering
     const filtered =
       selectedGenre && selectedGenre._id
         ? movies.filter(m => m.genre._id === selectedGenre._id)
         : movies;
 
+    // Use Lodash to sort filtered list
+    const sorted = _.orderBy(filtered, [sortColumn.target], [sortColumn.order]);
+
     // Use paginate utility to create an array of items to display
-    const moviestoDisplay = paginate(filtered, currentPage, pageSize);
+    const moviestoDisplay = paginate(sorted, currentPage, pageSize);
 
     return (
       <div className="row">
@@ -80,7 +98,9 @@ class Movies extends Component {
           <MoviesTable
             onLikeToggle={this.handleLikeToggle}
             onMovieDelete={this.handleDeleteMovie}
+            onSort={this.handleSort}
             moviesCount={filtered.length}
+            sortColumn={sortColumn}
             movies={moviestoDisplay}
           />
           <Pagination
