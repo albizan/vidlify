@@ -7,7 +7,7 @@ import { getGenres } from '../../services/fakeGenreService';
 
 // Custom components
 import Pagination from '../common/pagination';
-import MoviesTable from '../moviesTable';
+import MoviesTable from '../movies-table';
 import ListGroup from '../common/list-group';
 
 // Import utils
