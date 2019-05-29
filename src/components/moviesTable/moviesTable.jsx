@@ -1,19 +1,33 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import Like from '../common/like';
 
 const MoviesTable = props => {
-  const { movies, onLikeToggle, onMovieDelete, moviesCount } = props;
+  const {
+    movies,
+    onLikeToggle,
+    onMovieDelete,
+    moviesCount,
+    sortColumn,
+    onSort,
+  } = props;
   return (
     <React.Fragment>
       <p>Showing {moviesCount} movies in the database.</p>
       <table className="table">
         <thead>
           <tr>
-            <th>Title</th>
-            <th>Genre</th>
-            <th>Stock</th>
-            <th>Rate</th>
+            <th onClick={() => sort('title', sortColumn, onSort)}>Title</th>
+            <th onClick={() => sort('genre.name', sortColumn, onSort)}>
+              Genre
+            </th>
+            <th onClick={() => sort('numberInStock', sortColumn, onSort)}>
+              Stock
+            </th>
+            <th onClick={() => sort('dailyRentalRate', sortColumn, onSort)}>
+              Rate
+            </th>
             <th />
             <th />
           </tr>
@@ -43,5 +57,25 @@ const MoviesTable = props => {
     </React.Fragment>
   );
 };
+
+MoviesTable.propTypes = {
+  movies: PropTypes.array.isRequired,
+  sortColumn: PropTypes.object.isRequired,
+  moviesCount: PropTypes.number.isRequired,
+  onSort: PropTypes.func.isRequired,
+  onLikeToggle: PropTypes.func.isRequired,
+  onMovieDelete: PropTypes.func.isRequired,
+};
+
+function sort(target, sortColumn, onSort) {
+  if (sortColumn.target === target) {
+    sortColumn.order = sortColumn.order === 'asc' ? 'desc' : 'asc';
+    onSort(sortColumn);
+  } else {
+    sortColumn.target = target;
+    sortColumn.order = 'asc';
+    onSort(sortColumn);
+  }
+}
 
 export default MoviesTable;
