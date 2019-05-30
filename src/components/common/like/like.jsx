@@ -12,11 +12,7 @@ const Like = props => {
   }
   return (
     <React.Fragment>
-      <FontAwesomeIcon
-        style={{ cursor: 'pointer' }}
-        onClick={props.onClick}
-        icon={[iconStyle, 'heart']}
-      />
+      <FontAwesomeIcon className="clickable" onClick={props.onClick} icon={[iconStyle, 'heart']} />
     </React.Fragment>
   );
 };
