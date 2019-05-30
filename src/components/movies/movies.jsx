@@ -6,36 +6,53 @@ import { getMovies } from '../../services/fakeMovieService';
 import { getGenres } from '../../services/fakeGenreService';
 
 // Custom components
-import Pagination from '../common/pagination';
-import MoviesTable from '../movies-table';
-import ListGroup from '../common/list-group';
+import Pagination from '../common/Pagination';
+import MoviesTable from '../MoviesTable';
+import ListGroup from '../common/ListGroup';
 
 // Import utils
 import { paginate } from '../../utils/paginate';
 
 class Movies extends Component {
-  state = {
-    movies: [],
-    genres: [],
-    pageSize: 4,
-    currentPage: 1,
-    selectedGenre: null,
-    sortColumn: { target: 'title', order: 'asc' },
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      movies: [],
+      genres: [],
+      pageSize: 4,
+      currentPage: 1,
+      selectedGenre: {},
+      sortColumn: { target: 'title', order: 'asc' },
+    };
+  }
+
+  componentDidMount() {
+    // Add All Genre at the beginning of the genres array
+    const genresArray = [{ name: 'All Genres', _id: null }, ...getGenres()];
+    this.setState({
+      movies: getMovies(),
+      genres: genresArray,
+      selectedGenre: genresArray[0],
+    });
+  }
 
   // Handle deletion of a movie, filter out that movie and set new state
   handleDeleteMovie = movie => {
-    const movies = this.state.movies.filter(m => m._id !== movie._id);
-    this.setState({ movies });
+    this.setState(prevState => {
+      return {
+        movies: prevState.movies.filter(m => m._id !== movie._id),
+      };
+    });
   };
 
   // Handle 'like' toggle of a movie
-  // extract movies from state, search for movie index, apply 'like' toggle, set new state
   handleLikeToggle = movie => {
-    const newMovies = [...this.state.movies];
-    const index = newMovies.indexOf(movie);
-    newMovies[index].liked = !movie.liked;
-    this.setState({ movies: newMovies });
+    this.setState(prevState => {
+      let movies = [...prevState.movies];
+      const index = movies.indexOf(movie);
+      movies[index].liked = !movie.liked;
+      return { movies };
+    });
   };
 
   // Change state to match current selected page in pagination component
@@ -52,16 +69,6 @@ class Movies extends Component {
   handleSort = sortColumn => {
     this.setState({ sortColumn });
   };
-
-  componentDidMount() {
-    // Add All Genre at the beginning of the genres array
-    const genresArray = [{ name: 'All Genres', _id: null }, ...getGenres()];
-    this.setState({
-      movies: getMovies(),
-      genres: genresArray,
-      selectedGenre: genresArray[0],
-    });
-  }
 
   render() {
     const {
