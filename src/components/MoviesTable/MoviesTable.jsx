@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Like from '../common/like';
+import Like from '../common/Like';
 import TableHeader from '../common/TableHeader';
 
 // Array containing table columns labels
