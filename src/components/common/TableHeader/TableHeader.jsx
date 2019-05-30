@@ -1,8 +1,7 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-const TableHeader = props => {
-  const { columns, sortColumn, onSort } = props;
+const TableHeader = ({ columns, sortColumn, onSort }) => {
   return (
     <thead>
       <tr>

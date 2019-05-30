@@ -1,12 +1,10 @@
 import React from 'react';
 
-const ListGroup = props => {
-  const { items, selectedItem, onItemSelect } = props;
+const ListGroup = ({ items, selectedItem, onItemSelect }) => {
   return (
     <ul className="list-group">
       {items.map(item => {
-        let classes =
-          item === selectedItem ? 'list-group-item active' : 'list-group-item';
+        let classes = item === selectedItem ? 'list-group-item active' : 'list-group-item';
         return (
           <li
             style={{ cursor: 'pointer' }}

@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 
 import _ from 'lodash';
 
-const TableBody = props => {
-  const { items, columns } = props;
+const TableBody = ({ items, columns }) => {
   return (
     <tbody>
       {items.map(item => (
