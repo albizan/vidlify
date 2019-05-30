@@ -16,6 +16,8 @@ import { paginate } from '../../utils/paginate';
 class Movies extends Component {
   constructor(props) {
     super(props);
+
+    // Set state
     this.state = {
       movies: [],
       genres: [],
@@ -70,27 +72,23 @@ class Movies extends Component {
     this.setState({ sortColumn });
   };
 
-  render() {
-    const {
-      movies,
-      genres,
-      selectedGenre,
-      pageSize,
-      currentPage,
-      sortColumn,
-    } = this.state;
-
-    // Check if All Genres is selected. If not, proceed with filtering
-    const filtered =
-      selectedGenre && selectedGenre._id
-        ? movies.filter(m => m.genre._id === selectedGenre._id)
-        : movies;
-
+  getDisplayedMovies = (filtered, sortColumn, currentPage, pageSize) => {
     // Use Lodash to sort filtered list
     const sorted = _.orderBy(filtered, [sortColumn.target], [sortColumn.order]);
 
     // Use paginate utility to create an array of items to display
-    const moviestoDisplay = paginate(sorted, currentPage, pageSize);
+    return paginate(sorted, currentPage, pageSize);
+  };
+
+  render() {
+    const { movies, genres, selectedGenre, pageSize, currentPage, sortColumn } = this.state;
+
+    // Check if All Genres is selected. If not, proceed with filtering on genre
+    const filtered = selectedGenre._id
+      ? movies.filter(m => m.genre._id === selectedGenre._id)
+      : movies;
+
+    const displayedMovies = this.getDisplayedMovies(filtered, sortColumn, currentPage, pageSize);
 
     return (
       <div className="row">
@@ -108,7 +106,7 @@ class Movies extends Component {
             onSort={this.handleSort}
             moviesCount={filtered.length}
             sortColumn={sortColumn}
-            movies={moviestoDisplay}
+            movies={displayedMovies}
           />
           <Pagination
             itemsCount={filtered.length}
