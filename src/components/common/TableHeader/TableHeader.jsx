@@ -9,6 +9,7 @@ const TableHeader = props => {
         {columns.map(column => {
           return (
             <th
+              className="clickable"
               key={column.label || column.key}
               onClick={() => raiseSort(column.target, sortColumn, onSort)}
             >
