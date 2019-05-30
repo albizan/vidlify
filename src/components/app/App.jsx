@@ -7,7 +7,7 @@ import { faHeart as heartSolid } from '@fortawesome/free-solid-svg-icons';
 import { faHeart as heartRegular } from '@fortawesome/free-regular-svg-icons';
 
 // Custom components
-import Movies from '../movies';
+import Movies from '../Movies';
 
 library.add(heartSolid, heartRegular);
 
