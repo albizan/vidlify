@@ -2,12 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import Like from '../common/Like';
-import TableHeader from '../common/TableHeader';
-import TableBody from '../common/TableBody';
+import Table from '../common/Table';
 
-const MoviesTable = props => {
-  const { movies, onLikeToggle, onMovieDelete, moviesCount, sortColumn, onSort } = props;
-
+const MoviesTable = ({ movies, onLikeToggle, onMovieDelete, moviesCount, sortColumn, onSort }) => {
   // Array containing table columns labels
   const tableColumns = [
     { label: 'Title', target: 'title' },
@@ -31,10 +28,7 @@ const MoviesTable = props => {
   return (
     <React.Fragment>
       <p>Showing {moviesCount} movies in the database.</p>
-      <table className="table">
-        <TableHeader columns={tableColumns} sortColumn={sortColumn} onSort={onSort} />
-        <TableBody items={movies} columns={tableColumns} />
-      </table>
+      <Table items={movies} columns={tableColumns} sortColumn={sortColumn} onSort={onSort} />
     </React.Fragment>
   );
 };
