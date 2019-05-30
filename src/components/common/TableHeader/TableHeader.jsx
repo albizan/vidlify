@@ -1,8 +1,5 @@
 import React from 'react';
-
-// Columns: array
-// sortColumn: object
-// onSort: function
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const TableHeader = props => {
   const { columns, sortColumn, onSort } = props;
@@ -15,7 +12,7 @@ const TableHeader = props => {
               key={column.label || column.key}
               onClick={() => raiseSort(column.target, sortColumn, onSort)}
             >
-              {column.label}
+              {column.label} {renderSortIcon(column, sortColumn)}
             </th>
           );
         })}
@@ -35,4 +32,10 @@ function raiseSort(target, sortColumn, onSort) {
     sortColumn.order = 'asc';
     onSort(sortColumn);
   }
+}
+
+function renderSortIcon(column, sortColumn) {
+  if (column.target !== sortColumn.target) return null;
+  if (sortColumn.order === 'asc') return <FontAwesomeIcon icon={'sort-up'} />;
+  else return <FontAwesomeIcon icon={'sort-down'} />;
 }
