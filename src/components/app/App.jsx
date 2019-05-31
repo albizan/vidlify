@@ -1,4 +1,7 @@
 import React from 'react';
+import { Switch, Route, Redirect } from 'react-router-dom';
+
+// Styling
 import './App.css';
 
 // Font-Awesome Icons
@@ -7,15 +10,32 @@ import { faHeart as heartSolid, faSortUp, faSortDown } from '@fortawesome/free-s
 import { faHeart as heartRegular } from '@fortawesome/free-regular-svg-icons';
 
 // Custom components
+import Navbar from '../common/Navbar';
 import Movies from '../Movies';
+import Customers from '../Customers';
+import Rentals from '../Rentals';
+import NotFound from '../common/NotFound';
 
 library.add(heartSolid, heartRegular, faSortUp, faSortDown);
 
 const App = () => {
+  const paths = ['movies', 'customers', 'rentals'];
   return (
-    <main className="container my-4">
-      <Movies />
-    </main>
+    <React.Fragment>
+      <nav className="container-fluid">
+        <Navbar paths={paths} />
+      </nav>
+      <main className="container my-3">
+        <Switch>
+          <Route path="/movies" component={Movies} />
+          <Route path="/customers" component={Customers} />
+          <Route path="/rentals" component={Rentals} />
+          <Route path="/not-found" component={NotFound} />
+          <Redirect exact from="/" to="/movies" />
+          <Redirect to="/not-found" />
+        </Switch>
+      </main>
+    </React.Fragment>
   );
 };
 
