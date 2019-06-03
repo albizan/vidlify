@@ -12,6 +12,7 @@ import { faHeart as heartRegular } from '@fortawesome/free-regular-svg-icons';
 // Custom components
 import Navbar from '../common/Navbar';
 import Movies from '../Movies';
+import MovieForm from '../MovieForm';
 import Customers from '../Customers';
 import Rentals from '../Rentals';
 import NotFound from '../common/NotFound';
@@ -27,6 +28,7 @@ const App = () => {
       </nav>
       <main className="container my-3">
         <Switch>
+          <Route path="/movies/:id" component={MovieForm} />
           <Route path="/movies" component={Movies} />
           <Route path="/customers" component={Customers} />
           <Route path="/rentals" component={Rentals} />
