@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 
 const Navbar = ({ paths }) => {
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light">
+    <nav className="navbar navbar-expand-sm navbar-dark bg-dark">
       <NavLink className="navbar-brand" to="/">
         Vidlify
       </NavLink>
