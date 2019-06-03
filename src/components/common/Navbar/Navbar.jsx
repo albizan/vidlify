@@ -22,7 +22,7 @@ const Navbar = ({ paths }) => {
         <ul className="navbar-nav">
           {paths.map(path => {
             return (
-              <li className="nav-item">
+              <li key={path} className="nav-item">
                 <NavLink className="nav-link" to={buildPath(path)}>
                   {buildLabel(path)}
                 </NavLink>
