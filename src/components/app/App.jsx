@@ -24,10 +24,10 @@ const App = () => {
   const paths = ['movies', 'customers', 'rentals'];
   return (
     <React.Fragment>
-      <nav className="container-fluid">
+      <nav className="my-3">
         <Navbar paths={paths} />
       </nav>
-      <main className="container my-3">
+      <main className="container">
         <Switch>
           <Route path="/login" component={Login} />
           <Route path="/movies/:id" component={MovieForm} />
