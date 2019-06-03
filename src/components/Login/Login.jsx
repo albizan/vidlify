@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import Input from './Input';
+
 class Login extends Component {
   constructor(props) {
     super(props);
@@ -24,6 +26,7 @@ class Login extends Component {
     event.preventDefault();
   }
   render() {
+    const { username, password } = this.state.credentials;
     return (
       <React.Fragment>
         <h2>Login</h2>
@@ -31,27 +34,20 @@ class Login extends Component {
           <div className="row">
             <div className="col">
               <form onSubmit={this.handleSubmit}>
-                <div className="form-group">
-                  <label htmlFor="username">Username</label>
-                  <input
-                    value={this.state.credentials.username}
-                    onChange={this.handleChange}
-                    autoFocus
-                    type="text"
-                    className="form-control"
-                    id="username"
-                  />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="password">Password</label>
-                  <input
-                    value={this.state.credentials.password}
-                    onChange={this.handleChange}
-                    type="password"
-                    className="form-control"
-                    id="password"
-                  />
-                </div>
+                <Input
+                  name="username"
+                  label="Username"
+                  type="text"
+                  value={username}
+                  onChange={this.handleChange}
+                />
+                <Input
+                  name="password"
+                  label="Password"
+                  type="password"
+                  value={password}
+                  onChange={this.handleChange}
+                />
                 <button className="btn btn-primary" type="submit">
                   Log In
                 </button>
