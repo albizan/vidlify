@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 import Like from '../common/Like';
 import Table from '../common/Table';
@@ -7,7 +8,11 @@ import Table from '../common/Table';
 const MoviesTable = ({ movies, onLikeToggle, onMovieDelete, moviesCount, sortColumn, onSort }) => {
   // Array containing table columns labels
   const tableColumns = [
-    { label: 'Title', target: 'title' },
+    {
+      label: 'Title',
+      target: 'title',
+      content: movie => <Link to={`/movies/${movie._id}`}>{movie.title}</Link>,
+    },
     { label: 'Genre', target: 'genre.name' },
     { label: 'Stock', target: 'numberInStock' },
     { label: 'Rate', target: 'dailyRentalRate' },
