@@ -10,6 +10,7 @@ import { faHeart as heartSolid, faSortUp, faSortDown } from '@fortawesome/free-s
 import { faHeart as heartRegular } from '@fortawesome/free-regular-svg-icons';
 
 // Custom components
+import Login from '../Login';
 import Navbar from '../common/Navbar';
 import Movies from '../Movies';
 import MovieForm from '../MovieForm';
@@ -28,6 +29,7 @@ const App = () => {
       </nav>
       <main className="container my-3">
         <Switch>
+          <Route path="/login" component={Login} />
           <Route path="/movies/:id" component={MovieForm} />
           <Route path="/movies" component={Movies} />
           <Route path="/customers" component={Customers} />
